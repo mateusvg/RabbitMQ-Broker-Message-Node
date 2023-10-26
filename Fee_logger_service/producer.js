@@ -20,7 +20,7 @@ class Producer {
       message: message,
       dateTime: new Date(),
     };
-    await this.channel.publish(exchangeName, routingKey, Buffer.from(JSON.stringify(logDetails)));
+    await this.channel.publish(exchangeName, routingKey, Buffer.from(JSON.stringify(logDetails))); //this publish on queu //depending on logType received from method publishMessage, it redirects by routingKey
     console.log(`A new ${routingKey} fee have been detected and sent to ${exchangeName}`);
   }
 }
