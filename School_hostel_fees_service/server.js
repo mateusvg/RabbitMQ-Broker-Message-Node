@@ -5,9 +5,10 @@ async function consumeMessages() {
   const connection = await amqp.connect('amqp://localhost');
   const channel = await connection.createChannel();
   await channel.assertExchange('feeExchange', 'direct');
-  const q = await channel.assertQueue('HostelAndSchoolQueue');
+  const q = await channel.assertQueue('HostelAndSchoolQueue'); // Queue name
   await channel.bindQueue(q.queue, 'feeExchange', 'Hostel');
   await channel.bindQueue(q.queue, 'feeExchange', 'School');
+  await channel.bindQueue(q.queue, 'feeExchange', 'Test');
   channel.consume(q.queue, (msg) => {
     const data = JSON.parse(msg.content);
     console.log(data);
@@ -20,5 +21,5 @@ server.get('/', async (_, res, __) => {
 const port = 3003;
 server.listen(port, () => {
   consumeMessages();
-  console.log(`Server running on port: ${port}`);
+  console.log(`Server (school_hostel_fees) running on port: ${port}`);
 });
